@@ -16,8 +16,11 @@ router.post('/usuario', usuarioController.createUsuario)
 
 //INSERIR OUTRAS ROTAS -->
 router.get('/turmas', turmasController.getAll)
-router.get('/turma/:id', turmasController.getById) 
+router.get('/turmas/:id', turmasController.getById) 
+router.post('/turmas', turmasController.createTurmas)
 
+
+router.put('/turma/:codigo', turmasControlller.updateTurma)
 /* router.get('/turmas', turmasController.getAll)
 router.get('/turmas/:id', turmasController.getById) */
 
