@@ -20,7 +20,8 @@ router.get('/turmas/:id', turmasController.getById)
 router.post('/turmas', turmasController.createTurmas)
 
 
-router.put('/turma/:codigo', turmasControlller.updateTurma)
+router.put('/turmas/:codigo', turmasController.updateTurma);
+router.put('/usuario/:cpf', usuarioController.updateUsuario)
 /* router.get('/turmas', turmasController.getAll)
 router.get('/turmas/:id', turmasController.getById) */
 
