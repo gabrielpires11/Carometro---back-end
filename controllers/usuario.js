@@ -1,4 +1,7 @@
+const { where } = require('sequelize');
 const Usuario = require('../models/usuario');
+const UsuariosTurmas = require('../models/usuários_turma')
+
 exports.getAll = async (req, res) => {
     const usuarios = await Usuario.findAll();
     res.json(usuarios)
@@ -21,12 +24,12 @@ const usuarioCadastrado = await Usuario.findOne({ where: {cpf: req.body.cpf } })
 
     const usuarioCriado = await Usuario.create(req.body)
 
-    if (usuarioCriado.idUsuarios) {
+    if (usuarioCriado.idUsuarios && req.body.Turmas_idTurmas) {
 
         await UsuariosTurmas.create({
 
             Turmas_idTurmas: req.body.idTurma, //idturma vem do front commo informação de seleção de turma
-            Usuario_idUsuarios: usuarioCriado.idUsuarios
+            Usuarios_idUsuarios: usuarioCriado.idUsuarios
             
         })
     }
@@ -68,6 +71,29 @@ exports.updateUsuario = async (req, res) => {
         return res.status(500).send('Ocorreu um erro ao atualizar usuario.');
     }
 
+};
+
+//deletar o usuário
+
+exports.deleteUsuario = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const usuario = await Usuario.findByPk(id);
+        if (!usuario) {
+            return res.status(404).send('Usuário não encontrado');
+        }
+
+        const desvincular = await UsuariosTurmas.findOne({ where: {Usuarios_idUsuarios: usuario.idUsuarios } });
+        if (desvincular) {
+            await desvincular.destroy();
+        }
+        await usuario.destroy();
+
+        return res.send('Usuário deletado com sucesso');
+    } catch (error) {
+        console.error("Erro ao deletar usuario:", error);
+        return res.status(500).send('Ocorreu um erro ao deletar usuario');
+    }
 };
 
 
