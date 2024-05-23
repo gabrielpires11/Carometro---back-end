@@ -19,6 +19,9 @@ router.get('/turmas', turmasController.getAll)
 router.get('/turmas/:id', turmasController.getById) 
 router.post('/turmas', turmasController.createTurmas)
 
+//deletar os usuarios
+router.delete('/usuario/:id', usuarioController.deleteUsuario)
+
 
 router.put('/turmas/:codigo', turmasController.updateTurma);
 router.put('/usuario/:cpf', usuarioController.updateUsuario)
